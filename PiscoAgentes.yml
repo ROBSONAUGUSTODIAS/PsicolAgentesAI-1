@@ -1,0 +1,23 @@
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    pytest tests/
+  displayName: 'Run tests'
+
+- script: |
+    python main.py
+  displayName: 'Build application'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.SourcesDirectory)'
+    artifactName: 'drop'
+    publishLocation: 'Container'
